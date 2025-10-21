@@ -9,12 +9,5 @@ fi;
 
 AutoDoc( rec(
     autodoc := true,
-    scaffold := rec(
-        #TitlePage := false,
-        #index := false,
-        #bib := false,
-    ),
+    scaffold := true,
 ));
-
-# Thomas: Setze TitlePage=false und in 'doc/title.xml' wird in der 
-# '<Title>'-Zeile 'nofoma' durch nofoma<Index>nofoma</Index>' ersetzt.
