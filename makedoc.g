@@ -3,14 +3,17 @@
 #
 # This file is a script which compiles the package manual.
 #
-if fail = LoadPackage("AutoDoc", "2018.02.14") then
-    Error("AutoDoc version 2018.02.14 or newer is required.");
+if fail = LoadPackage("AutoDoc", "2022.07.10") then
+    Error("AutoDoc version 2022.07.10 or newer is required.");
 fi;
 
-#AutoDoc( rec( scaffold := true, autodoc := true ) );
-AutoDoc( rec( scaffold := rec( TitlePage := false,
-                includes := [ "_Chapter_The_nofoma_package.xml" ], 
-                index := false, bib := false ) #, autodoc := true 
+AutoDoc( rec(
+    autodoc := true,
+    scaffold := rec(
+        #TitlePage := false,
+        #index := false,
+        #bib := false,
+    ),
 ));
 
 # Thomas: Setze TitlePage=false und in 'doc/title.xml' wird in der 
