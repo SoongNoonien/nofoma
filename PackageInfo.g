@@ -52,7 +52,7 @@ AbstractHTML   :=  "",
 
 BannerString := Concatenation(
 "──────────────────────────────────────────────────────────────────────────\n",
-"Loading  nofoma 1.0 (Normal forms of matrices), \n",
+"Loading  nofoma ", ~.Version, " (Normal forms of matrices), \n",
 "by Meinolf Geck (https://pnp.mathematik.uni-stuttgart.de/idsr/idsr1/geckmf/)\n",
 "Help about the main functions in this package is obtained by typing:\n",
 "    ?MaximalVectorMat     ?FrobeniusNormalForm     ?JordanChevalleyDecMat\n",
@@ -62,11 +62,10 @@ BannerString := Concatenation(
 PackageDoc := rec(
   BookName  := "nofoma",
   ArchiveURLSubset := ["doc"],
-  HTMLStart := "doc/chap0.html",
+  HTMLStart := "doc/chap0_mj.html",
   PDFFile   := "doc/manual.pdf",
   SixFile   := "doc/manual.six",
   LongTitle := "Normal forms of matrices",
-  Autoload := true
 ),
 
 Dependencies := rec(
