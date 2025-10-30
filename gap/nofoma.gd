@@ -80,7 +80,31 @@ DeclareGlobalFunction("nfmCoeffsPol");
 DeclareGlobalFunction("nfmPolCoeffs");
 DeclareGlobalFunction("nfmGcd");
 DeclareGlobalFunction("nfmLcm");
+
+#! @Arguments a,b
+#! @Description 
+#! 'GcdCoprimeSplit' computes a divisor <M>a_1</M> of the polynomial <M>a</M> and a
+#! divisor <M>b_1</M> of the polynomial <M>b</M> such that <M>a_1</M> and <M>b_1</M> are coprime
+#! and the lcm of <M>a</M>, <M>b</M> is <M>a_1</M>*<M>b_1</M>.  This is based on Lemma 5 in
+#! K. Bongartz,  A direct approach to the rational normal form,
+#! preprint available at <URL>arXiv:1410.1683</URL>.
+#! (see also Lemma 4.3 in M.Geck, <URL>https://doi.org/10.13001/ela.2020.5055</URL>).
+#!
+#! (Note that it does not use the prime factorisation of polynomials but 
+#! only gcd computations.)
+#! 
+#! @BeginExampleSession
+#! gap> a:=x^2*(x-1)^3*(x-2)*(x-3);
+#! x^7-8*x^6+24*x^5-34*x^4+23*x^3-6*x^2
+#! gap> b:=x^2*(x-1)^2*(x-2)^4*(x-4);
+#! x^9-14*x^8+81*x^7-252*x^6+456*x^5-480*x^4+272*x^3-64*x^2
+#! gap> GcdCoprimeSplit(a,b);
+#! [ x^5-4*x^4+5*x^3-2*x^2,               # the (monic) gcd
+#! x^4-6*x^3+12*x^2-10*x+3,               # a1
+#! x^7-12*x^6+56*x^5-128*x^4+144*x^3-64*x^2 ]  # b1
+#! @EndExampleSession
 DeclareGlobalFunction("GcdCoprimeSplit");
+
 DeclareGlobalFunction("PolynomialToMatVec");
 DeclareGlobalFunction("PolynomialToMat");
 DeclareGlobalFunction("LcmMaximalVectorMat");
@@ -122,7 +146,32 @@ DeclareGlobalFunction("SpinMatVector1");
 #! @EndExampleSession
 DeclareGlobalFunction("SpinMatVector");
 
+#! @Arguments A
+#! @Description
+#!  'CyclicChainMat' repeatedly applies 'SpinMatVector1' (relative version
+#!  of 'SpinMatVector') to compute a chain of cyclic subspaces. The output
+#!  is a triple [B,C,svec]  where  C is such that  C*<M>A</M>*C^-1  has a block
+#!  triangular shape with companian matrices along the diagonal), B is the
+#!  row echelon form of C and svec is the list of indices where the blocks
+#!  begin.
+#!
+#! @BeginExampleSession
+#! gap> A:=[ [ 0, 1, 0, 1 ],
+#! gap>      [ 0, 0, 1, 0 ],
+#! gap>      [ 0, 1, 0, 1 ],
+#! gap>      [ 1, 1, 1, 1 ] ]);;
+#! gap> sp:=CyclicChainMat(A);
+#! [ [ [ 1, 0, 0, 0 ], [ 0, 1, 0, 1 ], [ 0, 0, 1, 0 ], [ 0, 0, 0, 1 ] ],
+#!   [ [ 1, 0, 0, 0 ], [ 0, 1, 0, 1 ], [ 1, 1, 2, 1 ], [ 0, 0, 0, 1 ] ],
+#!   [ 1, 4, 5 ] ]
+#! gap> PrintArray(sp[2]*A*sp[2]^-1);
+#! [ [    0,    1,    0,    0 ],  #There are 2 diagonal blocks,
+#! [    0,    0,    1,    0 ],    #one (size 3x3) starting at index 1,
+#! [    0,    3,    1,    0 ],    #one (size 1x1) starting at index 4.
+#! [  1/2,  1/2,  1/2,    0 ] ]
+#! @EndExampleSession
 DeclareGlobalFunction("CyclicChainMat");
+
 DeclareGlobalFunction("nfmRelMinPols");
 DeclareGlobalFunction("nfmOrderPolM");
 DeclareGlobalFunction("MinPolyMat");
@@ -180,8 +229,37 @@ DeclareGlobalFunction("MaximalVectorMat");
 DeclareGlobalFunction("JacobMatComplement");
 DeclareGlobalFunction("BuildBlockDiagonalMat");
 DeclareGlobalFunction("BuildBlockDiagonalMat1");
+
+#! @Arguments A,v
+#! @Description
+#! 'RatFormStep1J' spins up a vector  <M>v</M> under a  matrix  <M>A</M>,  computes
+#! a complementary subspace  (using  Jacob's construction),  and performs
+#! the base change. The output is a quadruple  [A1,P,pol,str] where A1 is
+#! the new matrix,  P is the base change,  pol is  the minimal polynomial
+#! and str is either 'split' or 'not', according to whether the extension
+#! is split or not. The second form repeatedly applies 'RatFormStep1J' in
+#! order to obtain an invariant complement.
+#!
+#! @BeginExampleSession
+#! gap> v:=[ 1, 1, 1, 1 ];;
+#! gap> A:=[ [ 0, 1, 0, 1 ],
+#! gap>      [ 0, 0, 1, 0 ],
+#! gap>      [ 0, 1, 0, 1 ],
+#! gap>      [ 1, 1, 1, 1 ] ];;
+#! gap> PrintArray(RatFormStep1J(A,v)[1])
+#! [ [  0,  1,  0,  0 ],    #There are 2 diagonal blocks but
+#!   [  0,  0,  1,  0 ],    #(because of the (4,1)-entry 1)
+#!   [  0,  3,  1,  0 ],    #the extension is not split.
+#!   [  1,  0,  0,  0 ] ]   
+#! gap> PrintArray(RatFormStep1Js(A,v)[1])";
+#! [ [  0,  1,  0,  0 ],    #Now we actually see that
+#!   [  0,  0,  1,  0 ],    #the matrix is cyclic.
+#!   [  0,  0,  0,  1 ],     
+#!   [  0,  0,  3,  1 ] ]   
+#! @EndExampleSession
 DeclareGlobalFunction("RatFormStep1");
 DeclareGlobalFunction("RatFormStep1J");
+
 DeclareGlobalFunction("nfmCompanionMat");
 DeclareGlobalFunction("nfmCompanionMat1");
 
@@ -240,7 +318,28 @@ DeclareGlobalFunction("FrobeniusNormalForm");
 
 DeclareGlobalFunction("CreateNormalForm");
 DeclareGlobalFunction("FrobeniusNormalForm1");
+
+#! @Arguments A
+#! @Description
+#! 'InvariantFactorsMat' returns the invariant factors of the matrix <M>A</M>,
+#! i.e.,  the minimal polynomials of the  diagonal blocks in the rational 
+#! canonical form  of <M>A</M>. Thus, 'InvariantFactorsMat' also specifies the
+#! rational canonical form of <M>A</M>, but without computing the base change.
+#!
+#! @BeginExampleSession
+#! gap> InvariantFactorsMat([ [ 2,  2, 0, 1, 0,  2, 1 ],
+#!                            [ 0,  4, 0, 0, 0,  1, 0 ],
+#!                            [ 0,  1, 1, 0, 0,  1, 1 ],
+#!                            [ 0, -1, 0, 1, 0, -1, 0 ],
+#!                            [ 0, -7, 0, 0, 1, -5, 0 ],
+#!                            [ 0, -2, 0, 0, 0,  1, 0 ],
+#!                            [ 0, -1, 0, 0, 0, -1, 1 ] ]);
+#!   #I Degree of minimal polynomial is 4
+#!   #I Degree of minimal polynomial is 2
+#!   [ x^4-7*x^3+17*x^2-17*x+6, x^2-3*x+2, x-1 ]
+#! @EndExampleSession
 DeclareGlobalFunction("InvariantFactorsMat");
+
 DeclareGlobalFunction("nfmFrobInv");
 DeclareGlobalFunction("SquareFreePol");
 
