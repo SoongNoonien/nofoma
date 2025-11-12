@@ -856,56 +856,15 @@ InstallGlobalFunction(CheckJordanChev,function(mat,jc)
   return [nfmGcd(m,Derivative(m)),MinPolyMat(jc[2])];
 end);
 
-InstallGlobalFunction(Testnofoma,function(lev)
-  local test,diagmat,bev,steel,ddd,mat1;
-  test:=function(a1)
-    local a,aa;
-    a:=CyclicChainMat(a1);
-    a:=MinPolyMat(a1);
-    a:=InvariantFactorsMat(a1);
-    a:=FrobeniusNormalForm(a1);
-    if CheckFrobForm(a1,a)=false
-      then Error(" --> tests not OK !\n");
-    fi;
-    if CheckJordanChev(a1,JordanChevalleyDecMat(a1,MinPolyMat(a1)))=false
-      then Error(" --> tests not OK !\n");
-    fi;
-  end;
-  diagmat:=function(l)
-    local m,i;
-    m:=l[1]*IdentityMat(Length(l));
-    for i in [2..Length(l)] do
-      m[i][i]:=l[i];
-    od;
-   return m;
-  end;
-  mat1:=function(mat)
-    local a,a1,b,i;
-    a1:=TransposedMat(Concatenation(mat,mat));
-    a:=[];
-    for i in [1..Length(a1)-1] do
-      Add(a,a1[i]);
-    od;
-    Add(a,0*a1[1]);
-    b:=TransposedMat(Concatenation(TransposedMat(mat),TransposedMat(mat)));
-    return Concatenation(a,b);
-  end;
-  SetInfoLevel(Infonofoma,lev);
-  bev:=TransposedMat(
-  [[2,0,0,0,0,0,0], [2,4,1,-1,-7,-2,-1], [0,0,1,0,0,0,0], [1,0,0,1,0,0,0],
-  [0,0,0,0,1,0,0], [2,1,1,-1,-5,1,-1], [1,0,1,0,0,0,1]]);
-  steel:=
-  [[-23,19,-9,-75,34,9,56,15,-34,-9], [-2,2,-1,-6,3,1,4,2,-3,0],
-  [4,-4,3,10,-5,-1,-6,-4,5,1], [-2,2,-1,-5,3,1,3,2,-3,0],
-  [0,0,0,0,2,0,0,0,0,0], [12,-12,6,33,-18,-4,-18,-12,18,0],
-  [-1,-3,0,2,1,0,1,1,2,1], [-26,22,-10,-83,36,10,61,18,-39,-10],
-  [-1,-3,0,1,1,0,2,1,2,0], [8,-12,4,27,-12,-4,-12,-7,15,0]];
-  ddd:=diagmat([1,2,-1,0,4,3,3,4,5,6,7,-1,5,4,0,0,3,2,1]);
-  test(steel); test(bev); test(ddd);
-  test(Z(4)^0*steel); test(Z(4)^0*bev); test(Z(4)^0*ddd);
-  test(mat1(steel)); test(Z(29)*mat1(steel));
-  test(RandomMat(15,15,Integers));
-  test(RandomMat(20,20,GF(49)));
-  Print("\n--> tests OK !\n\n");
+InstallGlobalFunction(nfmmat1,function(mat)
+  local a,a1,b,i;
+  a1:=TransposedMat(Concatenation(mat,mat));
+  a:=[];
+  for i in [1..Length(a1)-1] do
+    Add(a,a1[i]);
+  od;
+  Add(a,0*a1[1]);
+  b:=TransposedMat(Concatenation(TransposedMat(mat),TransposedMat(mat)));
+  return Concatenation(a,b);
 end);
 

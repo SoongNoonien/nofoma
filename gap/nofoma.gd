@@ -392,11 +392,7 @@ DeclareGlobalFunction("JordanChevalleyDecMatF");
 DeclareGlobalFunction("CheckFrobForm");
 DeclareGlobalFunction("CheckJordanChev");
 
-#! @Arguments lev
-#! @Description
-#!  'Testnofoma' runs a number of tests on the functions in this package;
-#!  the argument <A>lev</A> is a positive integer specifying the InfoLevel.
-DeclareGlobalFunction("Testnofoma");
+DeclareGlobalFunction("nfmmat1");
 
 #! @Section Further documentation
 #! The above functions, as well as a number of further auxiliary functions, 
