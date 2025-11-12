@@ -85,10 +85,8 @@ DeclareGlobalFunction("nfmLcm");
 #! @Description 
 #! 'GcdCoprimeSplit' computes a divisor <M>a_1</M> of the polynomial <M>a</M> and a
 #! divisor <M>b_1</M> of the polynomial <M>b</M> such that <M>a_1</M> and <M>b_1</M> are coprime
-#! and the lcm of <M>a</M>, <M>b</M> is <M>a_1</M>*<M>b_1</M>.  This is based on Lemma 5 in
-#! K. Bongartz,  A direct approach to the rational normal form,
-#! preprint available at <URL>arXiv:1410.1683</URL>.
-#! (see also Lemma 4.3 in M.Geck, <URL>https://doi.org/10.13001/ela.2020.5055</URL>).
+#! and the lcm of <M>a</M>, <M>b</M> is <M>a_1</M>*<M>b_1</M>.  This is based on Lemma 5 in <Cite Key = "Bon14"/>.
+#! (see also Lemma 4.3 in <Cite Key = "Gec20"/>).
 #!
 #! (Note that it does not use the prime factorisation of polynomials but 
 #! only gcd computations.)
@@ -211,15 +209,13 @@ DeclareGlobalFunction("MinPolyMat");
 #!  of the matrix <A>A</A>, that is, a vector whose local minimal polynomial 
 #!  is that of <A>A</A>. This is done by repeatedly spinning up vectors until 
 #!  a maximal one is found. The exact algorithm is a combination of 
-#!  * the minimal polynomial algorithm by Neunhoeffer-Praeger; see 
-#!      J. Comput. Math. 11, 2008 
-#!      (<URL>http://doi.org/10.1112/S1461157000000590</URL>); and  
+#!  * the minimal polynomial algorithm by Neunhoeffer-Praeger; see <Cite Key = "Neu08"/>; and  
 #!  * the method described by Bongartz 
-#!      (see <URL>https://arxiv.org/abs/1410.1683</URL>) for computing 
+#!      (see <Cite Key = "Bon14"/>) for computing 
 #!      maximal vectors.
 #!
 #!  See also the article by Geck at
-#!  <URL>https://doi.org/10.13001/ela.2020.5055</URL>. 
+#!  <Cite Key = "Gec20"/>. 
 #!
 #! @BeginExampleSession
 #! gap> A:=[ [  2,  2,  0,  1,  0,  2,  1 ],
@@ -309,8 +305,7 @@ DeclareGlobalFunction("nfmCompanionMat1");
 #!  and an invertible matrix <M>P</M> such that <M>P.A.P^{{-1}}</M> is the 
 #!  Frobenius normal form of <A>A</A>. The algorithm first computes a maximal 
 #!  vector and an <A>A</A>-invariant complement following Jacob's construction
-#!  (as described in matrix language in Geck, Electron. J. Linear Algebra 36, 
-#!  2020, <URL>https://doi.org/10.13001/ela.2020.5055</URL>); then the 
+#!  (as described in matrix language in <Cite Key = "Gec20"/>); then the 
 #!  algorithm continues recursively. It works for matrices over any field 
 #!  that is available in GAP. The output is a triple with 
 #!  * 1st component  = list of invariant factors; 
@@ -391,8 +386,7 @@ DeclareGlobalFunction("SquareFreePol");
 #!  <A>A</A>), such that <M>D.N=N.D</M>; the argument <A>f</A> is a 
 #!  polynomial such that <M>f(A)=0</M> (e.g., the minimal polynomial of 
 #!  <A>A</A>). This is called the Jordan-Chevalley decomposition of <A>A</A>; 
-#!  the algorithm is based on the preprint at 
-#!  <URL>https://arxiv.org/abs/2205.05432</URL>. Note that this 
+#!  the algorithm is based on <Cite Key = "Gec22"/>. Note that this 
 #!  algorithm does not require the knowledge of the eigenvalues of <A>A</A>; 
 #!  it works over any perfect field that is available in GAP.
 #!
@@ -443,4 +437,7 @@ DeclareGlobalFunction("nfmmat1");
 #! are all contained and defined in the file 'pgk/nofoma-1.0/gap/nofoma.gi'; 
 #! in that file, you can also find further inline documentation for the 
 #! auxiliary functions.
+
+<Bibliography Databases="../doc/nofoma.bib"/>
+
 
