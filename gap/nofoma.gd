@@ -105,9 +105,38 @@ DeclareGlobalFunction("nfmLcm");
 #! @EndExampleSession
 DeclareGlobalFunction("GcdCoprimeSplit");
 
+#! @Arguments A,pol,v
+#! @Description
+#! 'PolynomialToMatVec' returns  the row vector  obtained  by multiplying 
+#! the row vector <M>v</M> with the matrix <M>pol</M>(<M>A</M>), where <M>pol</M> is the list 
+#! of coefficients of a polynomial.
+#!
+#! @BeginExampleSession
+#! gap> A:=([ [ 0, 1, 0, 1 ],
+#! gap>       [ 0, 0, 0, 0 ],
+#! gap>       [ 0, 1, 0, 1 ],
+#! gap>       [ 1, 1, 1, 1 ] ]);;
+#! gap> f:=x^6-6*x^5+12*x^4-10*x^3+3*x^2;;
+#! gap> v:=[ 1, 1, 1, 1];;
+#! gap> l:=nfmCoeffsPol(f);
+#! gap> [ 0, 0, 3, -10, 12, -6, 1 ]
+#! gap> PolynomialToMat(A,last,v);
+#! [ 8, -16, 8, -16 ]
+#! @EndExampleSession
 DeclareGlobalFunction("PolynomialToMatVec");
+
 DeclareGlobalFunction("PolynomialToMat");
+
+#! @Arguments A,v1,v2,pol1,pol2
+#! @Description
+#!  'LcmPolynomialToMatVec' returns,  given  a matrix  <M>A</M>,  vectors <M>v1</M>,
+#!  <M>v2</M> with minimal polynomials <M>pol1</M>, <M>pol2</M>,  a new pair [<M>v</M>,<M>pol</M>],  
+#!  where <M>v</M> has minimal polynomial <M>pol</M>, and <M>pol</M> is the least common
+#!  multiple of <M>pol1</M> and <M>pol2</M>.  
+#!  This crucially relies on  'GcdCoprimeSplit' to avoid  factorisation of 
+#!  polynomials.
 DeclareGlobalFunction("LcmMaximalVectorMat");
+
 DeclareGlobalFunction("SpinMatVector1");
 
 #! @Arguments A,v
@@ -226,7 +255,18 @@ DeclareGlobalFunction("MinPolyMat");
 #! @EndExampleSession
 DeclareGlobalFunction("MaximalVectorMat");
 
+#! @Arguments T,d
+#! @Description
+#! 'JacobMatComplement' modifies an already given  complementary subspace 
+#! to the  complementary subspace defined by  Jacob;  concretely, this is 
+#! realized by assuming that  <M>T</M>  is a matrix in block triangular shape, 
+#! where the upper left diagonal block is a companion matrix (as returned 
+#! by 'RatFormStep1'; the variable <M>d</M> gives the size of that block.  
+#! (If <M>T</M> gives a  maximal cyclic subspace,  then  Jacob's complement is  
+#! also  <M>T</M>-invariant;  but even if not,  it appears  to be  very useful 
+#! because it produces many zeroes.)
 DeclareGlobalFunction("JacobMatComplement");
+
 DeclareGlobalFunction("BuildBlockDiagonalMat");
 DeclareGlobalFunction("BuildBlockDiagonalMat1");
 
@@ -277,6 +317,10 @@ DeclareGlobalFunction("nfmCompanionMat1");
 #!  * 2nd component = base change matrix <M>P</M>; and 
 #!  * 3rd component = indices where the various blocks in the normal form 
 #!       begin.
+#!  You can also use  'CreateNormalForm( f[1] );' to produce the Frobenius
+#!  normal form. (This function just builds the block diagonal matrix with 
+#!  diagonal blocks given by the companion matrices corresponding to the 
+#!  various invariant factors of <A>A</A>.) 
 #! 
 #! @BeginExampleSession
 #! gap> A:=[ [  2,  2,  0,  1,  0,  2,  1 ],
@@ -309,11 +353,6 @@ DeclareGlobalFunction("nfmCompanionMat1");
 #! (This is the Frobenius normal form; there are 3 diagonal blocks,
 #!  one of size 4, one of size 2 and one of size 1.)
 #! @EndExampleSession
-#! 
-#! You can also use  'CreateNormalForm( f[1] );' to produce the Frobenius
-#! normal form. (This function just builds the block diagonal matrix with 
-#! diagonal blocks given by the companion matrices corresponding to the 
-#! various invariant factors of <A>A</A>.) 
 DeclareGlobalFunction("FrobeniusNormalForm");
 
 DeclareGlobalFunction("CreateNormalForm");
@@ -388,7 +427,12 @@ DeclareGlobalFunction("SquareFreePol");
 #!  'JordanChevalleyDecMat(<A>A</A>);)'
 DeclareGlobalFunction("JordanChevalleyDecMat");
 
+#! @Arguments A
+#! @Description
+#!  'JordanChevalleyDecMatF'  first computes the Frobenius normal form and
+#!  then applies 'JordanChevalleyDecMat' to each diagonal block.
 DeclareGlobalFunction("JordanChevalleyDecMatF");
+
 DeclareGlobalFunction("CheckFrobForm");
 DeclareGlobalFunction("CheckJordanChev");
 
