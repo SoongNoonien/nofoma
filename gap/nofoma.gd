@@ -67,9 +67,9 @@
 #! your option) any later version.
 #!
 #! To install this package first unpack it inside some GAP root directory
-#! in the subdirectory 'pkg' (see the section 'Installing a GAP Package' of
+#! in the subdirectory `pkg` (see the section 'Installing a GAP Package' of
 #! the GAP reference manual). Then 'nofoma' can already be loaded and used
-#! (just type LoadPackage("nofoma");).
+#! (just type `LoadPackage("nofoma");`).
 #!
 #! @Section The main functions
 
