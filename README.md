@@ -1,3 +1,6 @@
+[![CI](https://github.com/gap-packages/nofoma/actions/workflows/CI.yml/badge.svg)](https://github.com/gap-packages/nofoma/actions/workflows/CI.yml)
+[![Code Coverage](https://codecov.io/gh/gap-packages/nofoma/graph/badge.svg)](https://codecov.io/gh/gap-packages/nofoma)
+
 # The GAP package nofoma
 
 This package computes maximal vectors, the Frobenius normal form and
