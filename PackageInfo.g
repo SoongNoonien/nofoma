@@ -30,13 +30,26 @@ Persons := [
 
 #SourceRepository := rec( Type := "TODO", URL := "URL" ),
 #IssueTrackerURL := "TODO",
-PackageWWWHome := "https://pnp.mathematik.uni-stuttgart.de/idsr/idsr1/geckmf/frobenius.g/",
-PackageInfoURL := Concatenation( ~.PackageWWWHome, "PackageInfo.g" ),
-README_URL     := Concatenation( ~.PackageWWWHome, "README.md" ),
-ArchiveURL     := Concatenation( ~.PackageWWWHome,
-                                 "/", ~.PackageName, "-", ~.Version ),
+#PackageWWWHome := "https://pnp.mathematik.uni-stuttgart.de/idsr/idsr1/geckmf/frobenius.g/",
+#PackageInfoURL := Concatenation( ~.PackageWWWHome, "PackageInfo.g" ),
+#README_URL     := Concatenation( ~.PackageWWWHome, "README.md" ),
+#ArchiveURL     := Concatenation( ~.PackageWWWHome,
+#                                 "/", ~.PackageName, "-", ~.Version ),
 
-ArchiveFormats := ".tar.gz",
+#ArchiveFormats := ".tar.gz",
+
+SourceRepository := rec(
+    Type := "git",
+    URL := Concatenation( "https://github.com/gap-packages/", ~.PackageName ),
+),
+IssueTrackerURL := Concatenation( ~.SourceRepository.URL, "/issues" ),
+PackageWWWHome  := Concatenation( "https://gap-packages.github.io/", ~.PackageName ),
+README_URL      := Concatenation( ~.PackageWWWHome, "/README.md" ),
+PackageInfoURL  := Concatenation( ~.PackageWWWHome, "/PackageInfo.g" ),
+ArchiveURL      := Concatenation( ~.SourceRepository.URL,
+                                 "/releases/download/v", ~.Version,
+                                 "/", ~.PackageName, "-", ~.Version ),
+ArchiveFormats := ".tar.gz .tar.bz2",
 
 ##  Status information. Currently the following cases are recognized:
 ##    "accepted"      for successfully refereed packages
