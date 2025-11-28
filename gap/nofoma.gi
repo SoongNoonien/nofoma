@@ -23,12 +23,6 @@
 ##  Stuttgart, June 1, 2022.
 #########################################################################
 
-InstallGlobalFunction(IInofoma, function(arg)
-  if InfoLevel(Infonofoma)>0 then
-    CallFuncList(Print, arg);
-  fi;
-end);
-
 InstallGlobalFunction(nfmCoeffsPol, function(p) 
   return CoefficientsOfUnivariatePolynomial(p);
 end);
@@ -389,32 +383,29 @@ InstallGlobalFunction(MinPolyMat,function(mat)
         f:=nfmPolCoeffs([-l[i],one])*f;
       od;
     fi;
-    IInofoma("#I Degree of minimal polynomial is ",Degree(f)," \n");
+    Info(Infonofoma,2,"Degree of minimal polynomial is ",Degree(f)," \n");
     return f;
   fi;
-  IInofoma("#I Chain complete with \c");
   sp:=CyclicChainMat(A);
   svec:=sp[3];
   if Length(svec)=2 then 
-    IInofoma("1 subspace \c");
+    Info(Infonofoma,2,"Chain complete with 1 subspace.");
   else
-    IInofoma(Length(svec)-1, " subspaces \c");
+    Info(Infonofoma,2,"Chain complete with ", Length(svec)-1, " subspaces.");
   fi;
   M:=sp[2]*A*sp[2]^-1;
-  IInofoma(".\c");
   rpols:=nfmRelMinPols(M,svec);
   f:=rpols[1];
   for z in [2..Length(svec)-1] do 
     if Degree(f)^3>Length(svec) or
          PolynomialToMatVec(M,nfmCoeffsPol(f),idm[svec[z]])<>0*idm[1] then 
       f1:=nfmOrderPolM(M,svec,rpols,z,idm[svec[z]]);
-      if QuotientRemainder(f,f1)[2]<>0*f1 then 
-        IInofoma(".\c");
+      if QuotientRemainder(f,f1)[2]<>0*f1 then
         f:=Lcm(f,f1);
       fi;
     fi;
   od;
-  IInofoma(" degree = ",Degree(f),"\n");
+  Info(Infonofoma,2,"Degree = ", Degree(f), ".");
   c:=CoefficientsOfUnivariatePolynomial(f);
   if c[Length(c)]<>c[1]^0 then
     return c[Length(c)]^(-1)*f;
@@ -460,7 +451,7 @@ InstallGlobalFunction(MaximalVectorMat,function(mat)
         np:=nfmPolCoeffs([-l[i],one])*np;
       od;
     fi;
-    IInofoma("#I Degree of minimal polynomial is ",Degree(np)," \n");
+    Info(Infonofoma,2,"#I Degree of minimal polynomial is ",Degree(np)," \n");
     return [v1,np];
   fi;
   sp:=CyclicChainMat(A);         # general case: transform to cyclic chain
@@ -483,7 +474,7 @@ InstallGlobalFunction(MaximalVectorMat,function(mat)
   #else
   #  Print("youpie ");
   #fi;
-  IInofoma("#I Degree of minimal polynomial is ",Degree(lm[2]),"\n");
+  Info(Infonofoma,2,"#I Degree of minimal polynomial is ",Degree(lm[2]),"\n");
   return [lm[1]*sp[2],lm[2]];
 end); 
 
@@ -825,20 +816,18 @@ InstallGlobalFunction(JordanChevalleyDecMat,function(mat,f)
   tg:=nfmCoeffsPol(GcdRepresentation(Derivative(gg[1]),gg[1])[1]);
   k0:=0;
   Ak:=A;
-  IInofoma("#I Iterations (m=",gg[2],"): \c");
+  Info(Infonofoma,2,"Iterations (m=",gg[2],").");
   while 2^k0<gg[2] do 
     Ak:=Ak-PolynomialToMat(Ak,g)*PolynomialToMat(Ak,tg);
     k0:=k0+1;
-    IInofoma(".\c");
   od;
-  IInofoma("\n");
   return [Ak,A-Ak];
 end);
 
 InstallGlobalFunction(JordanChevalleyDecMatF,function(mat)
   local f,jc,p,N,D;
   f:=FrobeniusNormalForm(mat);
-  IInofoma("#I Frobenius normal form complete\n");
+  Info(Infonofoma,2,"Frobenius normal form complete\n");
   Add(f[3],Length(mat)+1);
   jc:=List(f[1],p->JordanChevalleyDecMat(nfmCompanionMat1(nfmCoeffsPol(p)),p));
   N:=0*f[2];

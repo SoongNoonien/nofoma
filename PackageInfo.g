@@ -68,7 +68,6 @@ AbstractHTML   :=
   whose local minimal polynomial is equal to the minimal polynomial of a\
   given matrix.",
 
-
 BannerString := Concatenation(
 "──────────────────────────────────────────────────────────────────────────\n",
 "Loading  nofoma ", ~.Version, " (Normal forms of matrices), \n",
