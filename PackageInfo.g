@@ -26,17 +26,16 @@ Persons := [
     Place := "Stuttgart",
     Institution := "University of Stuttgart",
   ),
+  rec(
+    FirstNames := "Alia",
+    LastName := "Bonnet",
+    Email := "alia.bonnet@rwth.aachen.de",
+    IsAuthor := false;
+    IsMaintainer := true;
+    Place := "Aachen",
+    Institution := "RWTH Aachen"
+  )
 ],
-
-#SourceRepository := rec( Type := "TODO", URL := "URL" ),
-#IssueTrackerURL := "TODO",
-#PackageWWWHome := "https://pnp.mathematik.uni-stuttgart.de/idsr/idsr1/geckmf/frobenius.g/",
-#PackageInfoURL := Concatenation( ~.PackageWWWHome, "PackageInfo.g" ),
-#README_URL     := Concatenation( ~.PackageWWWHome, "README.md" ),
-#ArchiveURL     := Concatenation( ~.PackageWWWHome,
-#                                 "/", ~.PackageName, "-", ~.Version ),
-
-#ArchiveFormats := ".tar.gz",
 
 SourceRepository := rec(
     Type := "git",
@@ -61,7 +60,12 @@ ArchiveFormats := ".tar.gz .tar.bz2",
 ##
 Status := "dev",
 
-AbstractHTML   :=  "",
+AbstractHTML   :=  "This package computes maximal vectors, the Frobenius normal form and 
+                    the Jordan-Chevalley decomposition of a (square) matrix over any field 
+                    that is available in GAP. In particular, it extends the already 
+                    existing GAP function 'MininmalPolynomial' by computing also a vector 
+                    whose local minimal polynomial is equal to the minimal polynomial of a 
+                    given matrix.",
 
 BannerString := Concatenation(
 "──────────────────────────────────────────────────────────────────────────\n",
