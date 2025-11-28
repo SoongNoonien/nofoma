@@ -30,8 +30,8 @@ Persons := [
     FirstNames := "Alia",
     LastName := "Bonnet",
     Email := "alia.bonnet@rwth.aachen.de",
-    IsAuthor := false;
-    IsMaintainer := true;
+    IsAuthor := false,
+    IsMaintainer := true,
     Place := "Aachen",
     Institution := "RWTH Aachen"
   )
@@ -60,12 +60,14 @@ ArchiveFormats := ".tar.gz .tar.bz2",
 ##
 Status := "dev",
 
-AbstractHTML   :=  "This package computes maximal vectors, the Frobenius normal form and 
-                    the Jordan-Chevalley decomposition of a (square) matrix over any field 
-                    that is available in GAP. In particular, it extends the already 
-                    existing GAP function 'MininmalPolynomial' by computing also a vector 
-                    whose local minimal polynomial is equal to the minimal polynomial of a 
-                    given matrix.",
+AbstractHTML   :=  
+  "This package computes maximal vectors, the Frobenius normal form and\
+  the Jordan-Chevalley decomposition of a (square) matrix over any field\
+  that is available in GAP. In particular, it extends the already\
+  existing GAP function 'MininmalPolynomial' by computing also a vector\
+  whose local minimal polynomial is equal to the minimal polynomial of a\
+  given matrix.",
+
 
 BannerString := Concatenation(
 "──────────────────────────────────────────────────────────────────────────\n",
