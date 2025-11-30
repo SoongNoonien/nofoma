@@ -23,12 +23,6 @@
 ##  Stuttgart, June 1, 2022.
 #########################################################################
 
-InstallGlobalFunction(IInofoma, function(arg)
-  if InfoLevel(Infonofoma)>0 then
-    CallFuncList(Print, arg);
-  fi;
-end);
-
 InstallGlobalFunction(nfmCoeffsPol, function(p) 
   return CoefficientsOfUnivariatePolynomial(p);
 end);
@@ -389,32 +383,29 @@ InstallGlobalFunction(MinPolyMat,function(mat)
         f:=nfmPolCoeffs([-l[i],one])*f;
       od;
     fi;
-    IInofoma("#I Degree of minimal polynomial is ",Degree(f)," \n");
+    Info(Infonofoma,2,"Degree of minimal polynomial is ",Degree(f)," \n");
     return f;
   fi;
-  IInofoma("#I Chain complete with \c");
   sp:=CyclicChainMat(A);
   svec:=sp[3];
   if Length(svec)=2 then 
-    IInofoma("1 subspace \c");
+    Info(Infonofoma,2,"Chain complete with 1 subspace.");
   else
-    IInofoma(Length(svec)-1, " subspaces \c");
+    Info(Infonofoma,2,"Chain complete with ", Length(svec)-1, " subspaces.");
   fi;
   M:=sp[2]*A*sp[2]^-1;
-  IInofoma(".\c");
   rpols:=nfmRelMinPols(M,svec);
   f:=rpols[1];
   for z in [2..Length(svec)-1] do 
     if Degree(f)^3>Length(svec) or
          PolynomialToMatVec(M,nfmCoeffsPol(f),idm[svec[z]])<>0*idm[1] then 
       f1:=nfmOrderPolM(M,svec,rpols,z,idm[svec[z]]);
-      if QuotientRemainder(f,f1)[2]<>0*f1 then 
-        IInofoma(".\c");
+      if QuotientRemainder(f,f1)[2]<>0*f1 then
         f:=Lcm(f,f1);
       fi;
     fi;
   od;
-  IInofoma(" degree = ",Degree(f),"\n");
+  Info(Infonofoma,2,"Degree = ", Degree(f), ".");
   c:=CoefficientsOfUnivariatePolynomial(f);
   if c[Length(c)]<>c[1]^0 then
     return c[Length(c)]^(-1)*f;
@@ -460,7 +451,7 @@ InstallGlobalFunction(MaximalVectorMat,function(mat)
         np:=nfmPolCoeffs([-l[i],one])*np;
       od;
     fi;
-    IInofoma("#I Degree of minimal polynomial is ",Degree(np)," \n");
+    Info(Infonofoma,2,"#I Degree of minimal polynomial is ",Degree(np)," \n");
     return [v1,np];
   fi;
   sp:=CyclicChainMat(A);         # general case: transform to cyclic chain
@@ -483,7 +474,7 @@ InstallGlobalFunction(MaximalVectorMat,function(mat)
   #else
   #  Print("youpie ");
   #fi;
-  IInofoma("#I Degree of minimal polynomial is ",Degree(lm[2]),"\n");
+  Info(Infonofoma,2,"#I Degree of minimal polynomial is ",Degree(lm[2]),"\n");
   return [lm[1]*sp[2],lm[2]];
 end); 
 
@@ -825,20 +816,18 @@ InstallGlobalFunction(JordanChevalleyDecMat,function(mat,f)
   tg:=nfmCoeffsPol(GcdRepresentation(Derivative(gg[1]),gg[1])[1]);
   k0:=0;
   Ak:=A;
-  IInofoma("#I Iterations (m=",gg[2],"): \c");
+  Info(Infonofoma,2,"Iterations (m=",gg[2],").");
   while 2^k0<gg[2] do 
     Ak:=Ak-PolynomialToMat(Ak,g)*PolynomialToMat(Ak,tg);
     k0:=k0+1;
-    IInofoma(".\c");
   od;
-  IInofoma("\n");
   return [Ak,A-Ak];
 end);
 
 InstallGlobalFunction(JordanChevalleyDecMatF,function(mat)
   local f,jc,p,N,D;
   f:=FrobeniusNormalForm(mat);
-  IInofoma("#I Frobenius normal form complete\n");
+  Info(Infonofoma,2,"Frobenius normal form complete\n");
   Add(f[3],Length(mat)+1);
   jc:=List(f[1],p->JordanChevalleyDecMat(nfmCompanionMat1(nfmCoeffsPol(p)),p));
   N:=0*f[2];
@@ -856,303 +845,15 @@ InstallGlobalFunction(CheckJordanChev,function(mat,jc)
   return [nfmGcd(m,Derivative(m)),MinPolyMat(jc[2])];
 end);
 
-InstallGlobalFunction(Testnofoma,function(lev)
-  local test,diagmat,bev,steel,ddd,mat1;
-  test:=function(a1)
-    local a,aa;
-    a:=CyclicChainMat(a1);
-    a:=MinPolyMat(a1);
-    a:=InvariantFactorsMat(a1);
-    a:=FrobeniusNormalForm(a1);
-    if CheckFrobForm(a1,a)=false
-      then Error(" --> tests not OK !\n");
-    fi;
-    if CheckJordanChev(a1,JordanChevalleyDecMat(a1,MinPolyMat(a1)))=false
-      then Error(" --> tests not OK !\n");
-    fi;
-  end;
-  diagmat:=function(l)
-    local m,i;
-    m:=l[1]*IdentityMat(Length(l));
-    for i in [2..Length(l)] do
-      m[i][i]:=l[i];
-    od;
-   return m;
-  end;
-  mat1:=function(mat)
-    local a,a1,b,i;
-    a1:=TransposedMat(Concatenation(mat,mat));
-    a:=[];
-    for i in [1..Length(a1)-1] do
-      Add(a,a1[i]);
-    od;
-    Add(a,0*a1[1]);
-    b:=TransposedMat(Concatenation(TransposedMat(mat),TransposedMat(mat)));
-    return Concatenation(a,b);
-  end;
-  SetInfoLevel(Infonofoma,lev);
-  bev:=TransposedMat(
-  [[2,0,0,0,0,0,0], [2,4,1,-1,-7,-2,-1], [0,0,1,0,0,0,0], [1,0,0,1,0,0,0],
-  [0,0,0,0,1,0,0], [2,1,1,-1,-5,1,-1], [1,0,1,0,0,0,1]]);
-  steel:=
-  [[-23,19,-9,-75,34,9,56,15,-34,-9], [-2,2,-1,-6,3,1,4,2,-3,0],
-  [4,-4,3,10,-5,-1,-6,-4,5,1], [-2,2,-1,-5,3,1,3,2,-3,0],
-  [0,0,0,0,2,0,0,0,0,0], [12,-12,6,33,-18,-4,-18,-12,18,0],
-  [-1,-3,0,2,1,0,1,1,2,1], [-26,22,-10,-83,36,10,61,18,-39,-10],
-  [-1,-3,0,1,1,0,2,1,2,0], [8,-12,4,27,-12,-4,-12,-7,15,0]];
-  ddd:=diagmat([1,2,-1,0,4,3,3,4,5,6,7,-1,5,4,0,0,3,2,1]);
-  test(steel); test(bev); test(ddd);
-  test(Z(4)^0*steel); test(Z(4)^0*bev); test(Z(4)^0*ddd);
-  test(mat1(steel)); test(Z(29)*mat1(steel));
-  test(RandomMat(15,15,Integers));
-  test(RandomMat(20,20,GF(49)));
-  Print("\n--> tests OK !\n\n");
+InstallGlobalFunction(nfmmat1,function(mat)
+  local a,a1,b,i;
+  a1:=TransposedMat(Concatenation(mat,mat));
+  a:=[];
+  for i in [1..Length(a1)-1] do
+    Add(a,a1[i]);
+  od;
+  Add(a,0*a1[1]);
+  b:=TransposedMat(Concatenation(TransposedMat(mat),TransposedMat(mat)));
+  return Concatenation(a,b);
 end);
 
-FrobHelp:=function(f)
-  local i,l,s1,s2,s2a,s3,s4,s5,s5a,s5b,s6,s7,s7a,s8,s8a,s8b,s9,s9a,s10,s11,
-        s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,
-        s28,s29,s30;
-  if f=MaximalVectorMat then 
-s1:="";
-s3:="MaximalVectorMat( <A> ) . . . . . . . . . . . . compute maximal vector";
-s4:="'MaximalVectorMat' returns a maximal vector and the minimal polynomial";
-s5:="of the matrix  <A>. The algorithm is basically that of Neunhoeffer and";
-s6:="Praeger (LMS J. Comput. Math. 11, 2008), but modified so as to produce";
-s8:="a maximal vector *along* with the minimal polynomial.";
-s12:="(This is crucial for the determination of the Frobenius normal form.)";
-s9:="Also note:  This algorithm does not rely on the prime factorisation of";
-s10:="polynomials; hence, it works over any field that is available in GAP.";
-s13:="Example:  ";
-s14:=" gap> A:=[ [ 0, 1, 0, 1 ],";
-s15:=" gap>      [ 0, 0, 0, 0 ],";
-s16:=" gap>      [ 0, 1, 0, 1 ],";
-s17:=" gap>      [ 1, 1, 1, 1 ] ];;";
-s18:=" MaximalVectorMat(A);";
-s19:=" #I Degree of minimal polynomial is 3";
-s20:=" [ [ 0, 0, 1, 0 ], x_1^3-x_1^2-2*x_1 ]";
-s21:="";
-s22:="('NPMaximalVector' from the previous release has become obsolete.)";
-    l:=[s1,s3,s1,s4,s5,s6,s8,s12,s1,s9,s10,s1,s13,s14,s15,s16,s17,s18,
-        s19,s20,s21,s22];
-    for i in l do Print(i,"\n");od;
-  elif f=FrobeniusNormalForm then  
-s1:="";
-s2:="FrobeniusNormalForm( <A> ) . . . . compute the rational canonical form";
-s4:="";
-s5:="'FrobeniusNormalForm' returns the rational canonical form  of a matrix";
-s6:="<A>, and an invertible matrix P performing the base change  (such that";
-s7:="P*<A>*P^(-1) = normal form). The output is a triple with";
-s8:="        first component  = list of invariant factors,";
-s9:="        second component = base change matrix P,";
-s10:="         third component = positions where the various blocks begin.";
-s12:="";
-s13:="Example:";
-s14:="  gap> mat:=[ [ 0, 1, 0, 1 ],";
-s15:="              [ 0, 0, 0, 0 ],";
-s16:="              [ 0, 1, 0, 1 ],";
-s17:="              [ 1, 1, 1, 1 ] ];;";
-s18:="  gap> f:=FrobeniusNormalForm(mat);";
-s19:="  #I Degree of minimal polynomial is 3";
-s20:="  [ [ x_1^3-x_1^2-2*x_1, x_1 ],    #  f[1] = List of invariant factors";
-s21:="  [ [ 1, 0, 0, 0 ], [ 0, 1, 0, 1 ], [ 1, 1, 1, 1 ], [ 0, -1, 0, 0 ] ],";
-s22:="  [ 1, 4 ] ];        # f[3] = Positions where the various blocks begin";
-s23:="  gap> PrintArray(f[2]*mat*f[2]^-1);";
-s24:="  [ [  0,  1,  0,  0 ],          #  This is the Frobenius normal form;";
-s25:="    [  0,  0,  1,  0 ],          #  there are 2 diagonal blocks, ";
-s26:="    [  0,  2,  1,  0 ],          #  one of size 3 and one of size 1;";
-s27:="    [  0,  0,  0,  0 ] ]         #  f[2] = base change matrix";
-s3:="  (You can also use  'CreateNormalForm(f[1]);' to produce the latter.)";
-s28:="";
-s30:="('NPFrobeniusNormalForm' from the previous release is now obsolete.)";
-    l:=[s1,s2,s4,s5,s6,s7,s8,s9,s10,s12,s13,s14,s15,s16,s17,s18,s19,
-        s20,s21,s22,s23,s24,s25,s26,s27,s3,s28,s30];
-    for i in l do Print(i,"\n");od;
-elif f=SpinMatVector then 
-s1:="";
-s2:="SpinMatVector( <A>, <v> ) . . . . . .  spin up a vector under a matrix";
-s3:="'SpinMatVector' computes  the  smallest subspace containing the vector";
-s4:="<v>  and invariant under the matrix  <A>.  The  output is a quadruple.";
-s5:="The first component contains a  basis in row echelon form,  the second";
-s6:="the  matrix  with  rows v, Av, A^2v, ..., A^(d-1)v, the third  one the";
-s7:="coefficients of the minimal polynomial of <v>  (of degree d),  and the";
-s8:="last one the positions of the pivots of the first component.";
-s9:="";
-s10:="Examples:";
-s11:="   gap>  A:=[[2,0,0],[0,-1,0],[0,0,1]];";
-s12:="   gap>  v:=[1,1,0];";
-s13:="   gap>  SpinMatVector(A,v);";
-s14:="   [ [ [ 1, 0, 0 ], [ 0, 1, 0 ] ], ";
-s15:="     [ [ 1, 1, 0 ], [ 2, -1, 0 ] ], ";
-s16:="     [ -2, -1, 1 ], [ 1, 2 ] ]    So v has minimal polynomial x^2-x-2.";
-s17:="   gap>  SpinMatVector(A,[1,1,1]);";
-s18:="   [ [ [ 1, 0, 0 ], [ 0, 1, 0 ], [ 0, 0, 1 ] ], ";
-s19:="     [ [ 1, 1, 1 ], [ 2, -1, 1 ], [ 4, 1, 1 ] ], ";
-s20:="     [ 2, -1, -2, 1 ], [ 1, 2, 3 ] ]  minimal polynomial x^3-2x^2-x+2.";
-    l:=[s1,s2,s1,s3,s4,s5,s6,s7,s8,s9,s11,s12,s13,s14,s15,s16,s17,s18,s19,
-        s20,s1];
-    for i in l do Print(i,"\n");od;
-elif f=JordanChevalleyDecMat or f=JordanChevalleyDecMatF then 
-s1:="";
-s2:="JordanChevalleyDecMat( <A>, <f> ) . . . . compute the Jordan-Chevalley";
-s3:="JordanChevalleyDecMatF( <A> ) . . . . . . .  decomposition of a matrix";
-s4:="'JordanChevalleyDecMat' returns the unique pair of matrices D, N where";
-s5:="D  is  diagonalisable  over some extension field of the  default field";
-s6:="of the matrix <A> and N is a nilpotent matrix  such that <A>=D + N and";
-s7:="DN=ND;  the argument  <f> is a polynomial such that  f(A)=0 (e.g., the";
-s8:="minimal polynomial of <A>).";
-s8a:="'JordanChevalleyDecMatF' first computes the  Frobenius normal form and";
-s8b:="then applies 'JordanChevalleyDecMat' to each diagonal block.";
-s9:="Example:";
-s10:="   gap> A:=[ [ 0, 0, 0 ], [ 1, 0, -1 ], [ 0, 1, -2 ] ];";
-s11:="   gap> f:=MinimalPolynomials(A);";
-s12:="   x_1^3+2*x_1^2+x_1";
-s13:="   jc:=JordanChevalleyDecMat(A,f);";
-s14:="   [ [ [ 0, 0, 0 ], [ 2, -1, 0 ], [ 1, 0, -1 ] ],";
-s15:="     [ [ 0, 0, 0 ], [ -1, 1, -1 ], [ -1, 1, -1 ] ] ]";
-s16:="   gap> MinimalPolynomial(j[1]);";
-s17:="   x_1^2+x_1";
-s18:="   gap> MinimalPolynomial(j[2])";
-s19:="   x_1^2";
-s20:="The algorithm is based on the preprint at arXiv:2205.05432.";
-    l:=[s1,s2,s3,s1,s4,s5,s6,s7,s8,s1,s8a,s8b,s1,s9,s10,s11,s12,s13,s14,
-        s15,s16,s17,s18,s19,s1,s20];
-    for i in l do Print(i,"\n");od;
-##
-
-elif f=CyclicChainMat then 
-s1:="";
-s2:="CyclicChainMat( <A> ) . . . . . . . . . . .  chain of cyclic subspaces";
-s4:="";
-s5:="'CyclicChainMat' repeatedly applies 'SpinMatVector1' (relative version";
-s6:="of 'SpinMatVector') to compute a chain of cyclic subspaces. The output";
-s7:="is a triple [B,C,svec]  where  C is such that  C*<A>*C^-1  has a block";
-s8:="triangular shape with companian matrices along the diagonal), B is the";
-s9:="row echelon form of C and svec is the list of indices where the blocks";
-s10:="begin.";
-s11:="";
-s12:="Example:";
-s13:="  gap> A:=[ [ 0, 1, 0, 1 ],";
-s14:="  gap>      [ 0, 0, 1, 0 ],";
-s15:="  gap>      [ 0, 1, 0, 1 ],";
-s16:="  gap>      [ 1, 1, 1, 1 ] ]);;";
-s17:="  gap> sp:=CyclicChainMat(A);";
-s18:="  [ [ [ 1, 0, 0, 0 ], [ 0, 1, 0, 1 ], [ 0, 0, 1, 0 ], [ 0, 0, 0, 1 ] ],";
-s19:="    [ [ 1, 0, 0, 0 ], [ 0, 1, 0, 1 ], [ 1, 1, 2, 1 ], [ 0, 0, 0, 1 ] ],";
-s20:="    [ 1, 4, 5 ] ]";
-s21:="  gap> PrintArray(sp[2]*A*sp[2]^-1);";
-s22:="  [ [    0,    1,    0,    0 ],    There are 2 diagonal blocks,";
-s23:="    [    0,    0,    1,    0 ],    one (size 3x3) starting at index 1,";
-s24:="    [    0,    3,    1,    0 ],    one (size 1x1) starting at index 4.";
-s25:="    [  1/2,  1/2,  1/2,    0 ] ]";
-    l:=[s1,s2,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,
-        s20,s21,s22,s23,s24,s25,s1];
-    for i in l do Print(i,"\n");od;
-elif f=MinPolyMat then 
-s1:="";
-s2:="CharPolyMat( <A> ) . . . . . .  computes the characteristic polynomial";
-s2a:="MinPolyMat( <A> ) . . . . . . . . . .  computes the minimal polynomial";
-s4:="'CharPolyMat' returns the characteristic polynomial of the matrix <A>,";
-s5:="using a chain of  relative cyclic subspaces (see 'CyclicChainMat').";
-s5a:="'MinPolyMat' returns the minimal polyonial of <A>;  it is essentially";
-s3:="the same as 'MaximalVectorMat' (but without a maximal vector).";
-s5b:="These are alternatives to the built-in GAP functions.";
-s6:="";
-s7:="Example:";
-s8:="   gap> A:=[ [ 2,  2, 0, 1, 0,  2, 1 ],"; 
-s9:="             [ 0,  4, 0, 0, 0,  1, 0 ],";
-s10:="             [ 0,  1, 1, 0, 0,  1, 1 ],";
-s11:="             [ 0, -1, 0, 1, 0, -1, 0 ],";
-s12:="             [ 0, -7, 0, 0, 1, -5, 0 ],";
-s13:="             [ 0, -2, 0, 0, 0,  1, 0 ],";
-s14:="             [ 0, -1, 0, 0, 0, -1, 1 ] ];;";
-s15:="   gap> CharPolyMat(A);";
-s16:="   -x^7+11*x^6-50*x^5+122*x^4-173*x^3+143*x^2-64*x+12";
-s17:="   gap> MinPolyMat(A);";
-s18:="   x^4-7*x^3+17*x^2-17*x+6";
-    l:=[s1,s2,s2a,s1,s4,s5,s1,s5a,s3,s1,s5b,s6,s7,s8,s9,s10,s11,s12,
-              s13,s14,s15,s16,s17,s18,s1];
-    for i in l do Print(i,"\n");od;
-elif f=GcdCoprimeSplit then 
-s1:="";
-s2:="GcdCoprimeSplit( <a>, <b> ) . . . . . . . coprime factorisation of lcm";
-s3:="'GcdCoprimeSplit' computes a divisor <a1> of the polynomial <a>  and a ";
-s4:="divisor <b1> of the polynomial <b> such that <a1> and <b1> are coprime ";
-s5:="and the lcm of <a>, <b> is <a1>*<b1>.  This is based on Lemma 5 in ";
-s6:="";
-s7:="K.Bongartz,  A direct approach to the rational normal form,";
-s8:="preprint available at arXiv:1410.1683.";
-s9:="(see also Lemma 4.3 in M.Geck, https://doi.org/10.13001/ela.2020.5055).";
-s9a:="";
-s10:="(Note that it does not use the prime factorisation of polynomials  but ";
-s11:="only gcd computations.)  ";
-s12:="";
-s13:="Example:  ";
-s14:="  gap> a:=x^2*(x-1)^3*(x-2)*(x-3);";
-s15:="  x^7-8*x^6+24*x^5-34*x^4+23*x^3-6*x^2";
-s16:="  gap> b:=x^2*(x-1)^2*(x-2)^4*(x-4);";
-s17:="  x^9-14*x^8+81*x^7-252*x^6+456*x^5-480*x^4+272*x^3-64*x^2";
-s18:="  gap> GcdCoprimeSplit(a,b);";
-s19:="  [ x^5-4*x^4+5*x^3-2*x^2,                      # the (monic) gcd";
-s20:="    x^4-6*x^3+12*x^2-10*x+3,                    # a1";
-s21:="    x^7-12*x^6+56*x^5-128*x^4+144*x^3-64*x^2 ]  # b1";
-    l:=[s1,s2,s1,s3,s4,s5,s6,s7,s8,s9,s9a,s10,s11,s12,s13,s14,s15,s16,s17,
-        s18,s19,s20,s21,s1];
-    for i in l do Print(i,"\n");od;
-  elif f=RatFormStep1J or f=RatFormStep1 then 
-s1:="";
-s2:="RatFormStep1J( <A>, <v> ) . . . . . . . . compute cyclic subspaces and";
-s3:=". . . . . . . . . . . . . . . . . . . . . . . . . . perform base chain";
-s2a:="RatFormStep1Js( <A>, <v> ) . . . strong form with invariant complement";
-s4:="";
-s5:="'RatFormStep1J' spins up a vector  <v> under a  matrix  <A>,  computes";
-s6:="a complementary subspace  (using  Jacob's construction),  and performs"; 
-s7:="the base change. The output is a quadruple  [A1,P,pol,str] where A1 is";
-s7a:="the new matrix,  P is the base change,  pol is  the minimal polynomial";
-s8:="and str is either 'split' or 'not', according to whether the extension";
-s9:="is split or not. The second form repeatedly applies 'RatFormStep1J' in";
-s10:="order to obtain an invariant complement.";
-s11:="Example:";
-s12:=" gap> v:=[ 1, 1, 1, 1 ];;";
-s13:=" gap> A:=[ [ 0, 1, 0, 1 ],";
-s14:=" gap>      [ 0, 0, 1, 0 ],";
-s15:=" gap>      [ 0, 1, 0, 1 ],";
-s16:=" gap>      [ 1, 1, 1, 1 ] ];;";
-s17:=" gap> PrintArray(RatFormStep1J(A,v)[1])";
-s18:=" [ [  0,  1,  0,  0 ],    There are 2 diagonal blocks but";
-s19:="   [  0,  0,  1,  0 ],    (because of the (4,1)-entry 1)";
-s20:="   [  0,  3,  1,  0 ],    the extension is not split.";
-s21:="   [  1,  0,  0,  0 ] ]   ";
-s22:=" gap> PrintArray(RatFormStep1Js(A,v)[1])";
-s23:=" [ [  0,  1,  0,  0 ],    Now we actually see that";
-s24:="   [  0,  0,  1,  0 ],    the matrix is cyclic.";
-s25:="   [  0,  0,  0,  1 ],    "; 
-s26:="   [  0,  0,  3,  1 ] ]   ";
-    l:=[s1,s2,s3,s2a,s4,s5,s6,s7,s7a,s8,s9,s10,s1,s11,s12,s13,s14,s15,s16,
-                              s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s1];
-    for i in l do Print(i,"\n");od;
-elif f=InvariantFactorsMat then
-s1:="";
-s2:="InvariantFactorsMat( <A> ) . . . . . . . compute the invariant factors ";
-s4:="'InvariantFactorsMat' returns the invariant factors of the matrix <A>,";
-s5:="i.e.,  the minimal polynomials of the  diagonal blocks in the rational ";
-s6:="canonical form  of <A>. Thus, 'InvariantFactorsMat' also specifies the";
-s7:="rational canonical form of <A>, but without computing the base change.";
-s9:="Example:";
-s10:="   gap> InvariantFactorsMat([ [ 2,  2, 0, 1, 0,  2, 1 ],";
-s11:="                              [ 0,  4, 0, 0, 0,  1, 0 ],";
-s12:="                              [ 0,  1, 1, 0, 0,  1, 1 ],";
-s13:="                              [ 0, -1, 0, 1, 0, -1, 0 ],";
-s14:="                              [ 0, -7, 0, 0, 1, -5, 0 ],";
-s15:="                              [ 0, -2, 0, 0, 0,  1, 0 ],";
-s16:="                              [ 0, -1, 0, 0, 0, -1, 1 ] ]);";
-s17:="   #I Degree of minimal polynomial is 4";
-s18:="   #I Degree of minimal polynomial is 2";
-s19:="   [ x^4-7*x^3+17*x^2-17*x+6, x^2-3*x+2, x-1 ]";
-    l:=[s1,s2,s1,s4,s5,s6,s7,s1,s9,s10,s11,s12,s13,s14,
-                                        s15,s16,s17,s18,s19,s1];
-    for i in l do Print(i,"\n");od;
-  else
-   Print("sorry help not available\n"); 
-  fi;
-end;
