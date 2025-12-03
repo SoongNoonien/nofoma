@@ -92,14 +92,14 @@ DeclareGlobalFunction("nfmLcm");
 #! only gcd computations.)
 #! 
 #! @BeginExampleSession
+#! gap> x:=X(Rationals);;
 #! gap> a:=x^2*(x-1)^3*(x-2)*(x-3);
-#! x^7-8*x^6+24*x^5-34*x^4+23*x^3-6*x^2
+#! x_1^7-8*x_1^6+24*x_1^5-34*x_1^4+23*x_1^3-6*x_1^2
 #! gap> b:=x^2*(x-1)^2*(x-2)^4*(x-4);
-#! x^9-14*x^8+81*x^7-252*x^6+456*x^5-480*x^4+272*x^3-64*x^2
+#! x_1^9-14*x_1^8+81*x_1^7-252*x_1^6+456*x_1^5-480*x_1^4+272*x_1^3-64*x_1^2
 #! gap> GcdCoprimeSplit(a,b);
-#! [ x^5-4*x^4+5*x^3-2*x^2,              
-#! x^4-6*x^3+12*x^2-10*x+3,               
-#! x^7-12*x^6+56*x^5-128*x^4+144*x^3-64*x^2 ]  # b1
+#! [ x_1^5-4*x_1^4+5*x_1^3-2*x_1^2, x_1^4-6*x_1^3+12*x_1^2-10*x_1+3,               
+#!   x_1^7-12*x_1^6+56*x_1^5-128*x_1^4+144*x_1^3-64*x_1^2 ]
 #! @EndExampleSession
 DeclareGlobalFunction("GcdCoprimeSplit");
 
@@ -111,14 +111,15 @@ DeclareGlobalFunction("GcdCoprimeSplit");
 #!
 #! @BeginExampleSession
 #! gap> A:=[ [ 0, 1, 0, 1 ],
-#! gap>       [ 0, 0, 0, 0 ],
-#! gap>       [ 0, 1, 0, 1 ],
-#! gap>       [ 1, 1, 1, 1 ] ];;
+#! >         [ 0, 0, 0, 0 ],
+#! >         [ 0, 1, 0, 1 ],
+#! >         [ 1, 1, 1, 1 ] ];;
+#! gap> x:=X(Rationals);;
 #! gap> f:=x^6-6*x^5+12*x^4-10*x^3+3*x^2;;
 #! gap> v:=[ 1, 1, 1, 1];;
-#! gap> l:=nfmCoeffsPol(f);
-#! gap> [ 0, 0, 3, -10, 12, -6, 1 ]
-#! gap> PolynomialToMat(A,last,v);
+#! gap> pol:=nfmCoeffsPol(f);
+#! [ 0, 0, 3, -10, 12, -6, 1 ]
+#! gap> PolynomialToMatVec(A,pol,v);
 #! [ 8, -16, 8, -16 ]
 #! @EndExampleSession
 DeclareGlobalFunction("PolynomialToMatVec");
@@ -154,7 +155,7 @@ DeclareGlobalFunction("SpinMatVector1");
 #! gap> A:=[ [   5,   2,  -4,   2 ],
 #! >         [  -1,   0,   2,  -1 ],
 #! >         [  -1,  -1,   3,  -1 ],
-#! >         [ -13,  -7,  14,  -6 ] ];
+#! >         [ -13,  -7,  14,  -6 ] ];;
 #! gap> SpinMatVector(a,[1,0,0,0]);
 #! [ [ [ 1, 0, 0, 0 ], [ 0, 1, -2, 1 ] ], 
 #!   [ [ 1, 0, 0, 0 ], [ 5, 2, -4, 2 ] ], 
@@ -184,18 +185,18 @@ DeclareGlobalFunction("SpinMatVector");
 #!
 #! @BeginExampleSession
 #! gap> A:=[ [ 0, 1, 0, 1 ],
-#! gap>      [ 0, 0, 1, 0 ],
-#! gap>      [ 0, 1, 0, 1 ],
-#! gap>      [ 1, 1, 1, 1 ] ];;
+#! >         [ 0, 0, 1, 0 ],
+#! >         [ 0, 1, 0, 1 ],
+#! >         [ 1, 1, 1, 1 ] ];;
 #! gap> sp:=CyclicChainMat(A);
 #! [ [ [ 1, 0, 0, 0 ], [ 0, 1, 0, 1 ], [ 0, 0, 1, 0 ], [ 0, 0, 0, 1 ] ],
 #!   [ [ 1, 0, 0, 0 ], [ 0, 1, 0, 1 ], [ 1, 1, 2, 1 ], [ 0, 0, 0, 1 ] ],
 #!   [ 1, 4, 5 ] ]
 #! gap> PrintArray(sp[2]*A*sp[2]^-1);
 #! [ [    0,    1,    0,    0 ],  
-#! [    0,    0,    1,    0 ],    
-#! [    0,    3,    1,    0 ],    
-#! [  1/2,  1/2,  1/2,    0 ] ]
+#!   [    0,    0,    1,    0 ],    
+#!   [    0,    3,    1,    0 ],    
+#!   [  1/2,  1/2,  1/2,    0 ] ]
 #! @EndExampleSession
 DeclareGlobalFunction("CyclicChainMat");
 
@@ -223,7 +224,7 @@ DeclareGlobalFunction("MinPolyMat");
 #! >         [  0, -1,  0,  1,  0, -1,  0 ],
 #! >         [  0, -7,  0,  0,  1, -5,  0 ],
 #! >         [  0, -2,  0,  0,  0,  1,  0 ],
-#! >         [  0, -1,  0,  0,  0, -1,  1 ] ];
+#! >         [  0, -1,  0,  0,  0, -1,  1 ] ];;
 #! gap> MaximalVectorMat(A);
 #! [ [ 1, -2, 1, 1, 0, 0, 1 ], x_1^4-7*x_1^3+17*x_1^2-17*x_1+6 ]
 #! gap> v:=last[1];                    
@@ -233,7 +234,7 @@ DeclareGlobalFunction("MinPolyMat");
 #! In the following example, <M>M_2</M> is the (challenging) test matrix 
 #! from the paper by Neunhoeffer-Praeger:
 #!
-#! @BeginExampleSession
+#! @BeginLogSession
 #! gap> LoadPackage("AtlasRep");; g:=AtlasGroup("B",1); M2:=g.1+g.2+g.1*g.2;
 #! <matrix group of size 4154781481226426191177580544000000 with 2 generators>
 #! <an immutable 4370x4370 matrix over GF2>
@@ -246,7 +247,7 @@ DeclareGlobalFunction("MinPolyMat");
 #! gap> LoadPackage("cvec");               
 #! gap> MinimalPolynomial(CMat(M2));;time;   
 #! 9721
-#! @EndExampleSession
+#! @EndLogSession
 DeclareGlobalFunction("MaximalVectorMat");
 
 #! @Arguments T,d
@@ -277,9 +278,9 @@ DeclareGlobalFunction("BuildBlockDiagonalMat1");
 #! @BeginExampleSession
 #! gap> v:=[ 1, 1, 1, 1 ];;
 #! gap> A:=[ [ 0, 1, 0, 1 ],
-#! gap>      [ 0, 0, 1, 0 ],
-#! gap>      [ 0, 1, 0, 1 ],
-#! gap>      [ 1, 1, 1, 1 ] ];;
+#! >         [ 0, 0, 1, 0 ],
+#! >         [ 0, 1, 0, 1 ],
+#! >         [ 1, 1, 1, 1 ] ];;
 #! gap> PrintArray(RatFormStep1J(A,v)[1])
 #! [ [  0,  1,  0,  0 ],    
 #!   [  0,  0,  1,  0 ],    
@@ -322,10 +323,9 @@ DeclareGlobalFunction("nfmCompanionMat1");
 #! >         [  0, -1,  0,  1,  0, -1,  0 ],
 #! >         [  0, -7,  0,  0,  1, -5,  0 ],
 #! >         [  0, -2,  0,  0,  0,  1,  0 ],
-#! >         [  0, -1,  0,  0,  0, -1,  1 ] ];
+#! >         [  0, -1,  0,  0,  0, -1,  1 ] ];;
 #! gap> f:=FrobeniusNormalForm(A);
 #! [ [ x_1^4-7*x_1^3+17*x_1^2-17*x_1+6, x_1^2-3*x_1+2, x_1-1 ], 
-#!                                 
 #!   [ [    1,   -2,    1,    1,    0,    0,    1 ],
 #!     [    2,   -7,    1,    2,    0,   -1,    3 ],
 #!     [    4,  -26,    1,    4,    0,   -8,    6 ],
@@ -333,7 +333,6 @@ DeclareGlobalFunction("nfmCompanionMat1");
 #!     [ -1/2,   -2,    0,  1/2,    0,   -2, -3/2 ],
 #!     [   -1,   -4,    0,    0,    0,   -4,   -2 ],
 #!     [    0,  9/4,    0,   -3,    1,  5/4,  1/4 ] ],
-#!                                  
 #!   [ 1, 5, 7 ]  ]                 
 #! gap> PrintArray(f[2]*A*f[2]^-1);
 #! [ [   0,   1,   0,   0,   0,   0,   0 ], 
@@ -366,7 +365,7 @@ DeclareGlobalFunction("FrobeniusNormalForm1");
 #!                            [ 0, -1, 0, 0, 0, -1, 1 ] ]);
 #!   #I Degree of minimal polynomial is 4
 #!   #I Degree of minimal polynomial is 2
-#!   [ x^4-7*x^3+17*x^2-17*x+6, x^2-3*x+2, x-1 ]
+#!   [ x_1^4-7*x_1^3+17*x_1^2-17*x_1+6, x_1^2-3*x_1+2, x_1-1 ]
 #! @EndExampleSession
 DeclareGlobalFunction("InvariantFactorsMat");
 
