@@ -430,7 +430,6 @@ end);
 ##   MaximalVectorMat(A);
 ##   #I Degree of minimal polynomial is 3 
 ##   [ [ 0, 0, 1, 0 ], x_1^3-x_1^2-2*x_1 ]
-##   (See also FrobHelp(MinPolyMat);)
 ##   
 InstallGlobalFunction(MaximalVectorMat,function(mat)
   local A,M,k,idm,sp,l,np,i,v1,z,one,f,rpols,svec,lm;
