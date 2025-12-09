@@ -23,12 +23,6 @@ The algorithms in this package are based on, and a combination of:
 - M. Geck, On Jacob's construction of the rational canonical form, Electron. J. Linear Algebra 36 (2020), 177-182.
 - M. Geck, On the Jordan-Chevalley decomposition of a matrix, preprint.
 
-## Contact
-
-Any comments welcome! My web page (with contact details) is at 
-
-https://pnp.mathematik.uni-stuttgart.de/idsr/idsr1/geckmf/
-
 ## Feedback and support
 
 If you have any bug reports, feature requests, or suggestions, then please
