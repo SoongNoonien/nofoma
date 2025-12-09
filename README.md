@@ -20,6 +20,12 @@ Any comments welcome! My web page (with contact details) is at
 
 https://pnp.mathematik.uni-stuttgart.de/idsr/idsr1/geckmf/
 
+## Feedback and support
+
+If you have any bug reports, feature requests, or suggestions, then please
+tell us via the
+[issue tracker on GitHub](https://github.com/gap-packages/nofoma/issues).
+
 ## License
 
 The nofoma package is free software; you can redistribute it and/or
