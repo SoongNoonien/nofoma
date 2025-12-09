@@ -301,19 +301,16 @@ end);
 
 ##########################################################################
 ##
-#F  CharPolyMat( <A> ) . . . . . .  computes the characteristic polynomial 
 #F  MinPolyMat( <A> )  . . . . . . . . . . computes the minimal polynomial 
 ##  
-##  'CharPolyMat' returns the characteristic polynomial of the matrix <A>, 
-##  using a chain of cyclic subspaces (see 'CyclicChainMat'); 
-##  'MinPolyMat' returns te minimal polynomial.  
+##  'MinPolyMat' returns the minimal polynomial of the matrix <A>.
 ##  
 ##  Example:
-##     gap> CharPolyMat([ [ 0, 1, 0, 1 ],
+##     gap> MinPolyMat([ [ 0, 1, 0, 1 ],
 ##     gap>               [ 0, 0, 0, 0 ],
 ##     gap>               [ 0, 1, 0, 1 ],
 ##     gap>               [ 1, 1, 1, 1 ] ]);
-##     x^4-x^3-2*x^2
+##     x_1^3-x_1^2-2*x_1
 ##  
 # This is OrdPoly from Neunhoeffer-Praeger 
 InstallGlobalFunction(nfmOrderPolM,function(M,svec,rpols,z,v)
