@@ -18,9 +18,9 @@ Then you can load the package into GAP by typing `LoadPackge("nofoma");`
 
 The algorithms in this package are based on, and a combination of:
 
-- K. Bongartz,  A direct approach to the rational normal form, preprint available at arXiv:1410.1683.
-- M. Neunhoeffer and  C. E. Praeger,  Computing minimal polynomials of matrices, LMS J. Comput. Math. 11 (2008), 252-279;
-- M. Geck,  On Jacob's construction  of  the  rational  canonical form, Electron. J. Linear Algebra 36 (2020), 177-182.
+- K. Bongartz, A direct approach to the rational normal form, preprint available at arXiv:1410.1683.
+- M. Neunhoeffer and C. E. Praeger, Computing minimal polynomials of matrices, LMS J. Comput. Math. 11 (2008), 252-279;
+- M. Geck, On Jacob's construction of the rational canonical form, Electron. J. Linear Algebra 36 (2020), 177-182.
 - M. Geck, On the Jordan-Chevalley decomposition of a matrix, preprint.
 
 ## Contact
