@@ -1,29 +1,20 @@
-#########################################################################
-##
-#A  nofoma.gi                                                Meinolf Geck
-##
-#Y  Copyright (C) 2019/22  Lehrstuhl fuer Algebra, Universitaet Stuttgart
-##
-##  This is a package for computing maximal vectors, minimal polynomials, 
-##  the rational canonical form (or Frobenius normal form)  and also  the
-##  Jordan-Chevalley decomposition  of a  matrix  over any  field that is 
-##  available in  GAP. The algorithms are based on, and a combination of:  
-## 
-##  K. Bongartz,  A direct approach to the rational normal form, preprint
-##                                          available at arXiv:1410.1683.
-## 
-##  M. Neunhoeffer and  C. E. Praeger,  Computing minimal polynomials  of
-##                     matrices, LMS J. Comput. Math. 11 (2008), 252-279;
-## 
-##  M. Geck,  On Jacob's construction  of  the  rational  canonical form, 
-##                        Electron. J. Linear Algebra 36 (2020), 177-182.
-##  
-##  M. Geck, On the Jordan-Chevalley decomposition of a matrix, preprint.
-##
-##  Stuttgart, June 1, 2022.
-#########################################################################
+# nofoma - Normal forms of matrices
+# Copyright (C) 2019-2022  Meinolf Geck <https://pnp.mathematik.uni-stuttgart.de/idsr/idsr1/geckmf/>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, see <https://www.gnu.org/licenses/>.
 
-InstallGlobalFunction(nfmCoeffsPol, function(p) 
+InstallGlobalFunction(nfmCoeffsPol, function(p)
   return CoefficientsOfUnivariatePolynomial(p);
 end);
 
