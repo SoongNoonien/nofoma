@@ -107,18 +107,6 @@ end);
 ##  the row vector <v> with the matrix <pol>(<A>), where <pol> is the list 
 ##  of coefficients of a polynomial.
 ##
-##  Example:
-##     gap> A:=([ [ 0, 1, 0, 1 ],
-##     gap>       [ 0, 0, 0, 0 ],
-##     gap>       [ 0, 1, 0, 1 ],
-##     gap>       [ 1, 1, 1, 1 ] ]);;
-##     gap> f:=x^6-6*x^5+12*x^4-10*x^3+3*x^2;;
-##     gap> v:=[ 1, 1, 1, 1];;
-##     gap> l:=nfmCoeffsPol(f);
-##     gap> [ 0, 0, 3, -10, 12, -6, 1 ]
-##     gap> PolynomialToMat(A,last,v);
-##     [ 8, -16, 8, -16 ]
-##
 InstallGlobalFunction(PolynomialToMatVec,function(A,pol,v)
   local n,v1,i;
   n:=Length(pol);

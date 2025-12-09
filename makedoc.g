@@ -9,5 +9,6 @@ fi;
 
 AutoDoc( rec(
     autodoc := true,
+    extract_examples := true,
     scaffold := true,
 ));
