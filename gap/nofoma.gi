@@ -1,5 +1,5 @@
 # nofoma - Normal forms of matrices
-# Copyright (C) 2019-2022  Meinolf Geck <https://pnp.mathematik.uni-stuttgart.de/idsr/idsr1/geckmf/>
+# Copyright (C) 2019-2022  Meinolf Geck <meinolf.geck@mathematik.uni-stuttgart.de>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
