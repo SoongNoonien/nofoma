@@ -38,17 +38,17 @@ gap> A:=[ [   5,   2,  -4,   2 ],
 >         [  -1,   0,   2,  -1 ],
 >         [  -1,  -1,   3,  -1 ],
 >         [ -13,  -7,  14,  -6 ] ];;
-gap> SpinMatVector(a,[1,0,0,0]);
+gap> SpinMatVector(A,[1,0,0,0]);
 [ [ [ 1, 0, 0, 0 ], [ 0, 1, -2, 1 ] ], 
   [ [ 1, 0, 0, 0 ], [ 5, 2, -4, 2 ] ], 
   [ -1, 0, 1 ],             
   [ 1, 2 ] ]                
-gap> SpinMatVector(a,[0,1,0,0]);
+gap> SpinMatVector(A,[0,1,0,0]);
 [ [ [ 0, 1, 0, 0 ], [ 1, 0, -2, 1 ], [ 0, 0, 1, -1/2 ] ], 
   [ [ 0, 1, 0, 0 ], [ -1, 0, 2, -1 ], [ 6, 3, -4, 2 ] ], 
   [ 1, -1, -1, 1 ],         
   [ 2, 1, 3 ] ]             
-gap> SpinMatVector(a,[1,1,0,0]);
+gap> SpinMatVector(A,[1,1,0,0]);
 [ [ [ 1, 1, 0, 0 ], [ 0, 1, 1, -1/2 ] ], 
   [ [ 1, 1, 0, 0 ], [ 4, 2, -2, 1 ] ], 
   [ 1, -2, 1 ],             
@@ -79,28 +79,23 @@ gap> A:=[ [  2,  2,  0,  1,  0,  2,  1 ],
 >         [  0, -1,  0,  0,  0, -1,  1 ] ];;
 gap> MaximalVectorMat(A);
 [ [ 1, -2, 1, 1, 0, 0, 1 ], x_1^4-7*x_1^3+17*x_1^2-17*x_1+6 ]
-gap> v:=last[1];                    
+gap> v:=last[1];;               
 gap> SpinMatVector(A,v)[3];         
 [ 6, -17, 17, -7, 1 ]                    
 
-# doc/_Chapter_The_nofoma_package.xml:299-315
+# doc/_Chapter_The_nofoma_package.xml:298-309
 gap> v:=[ 1, 1, 1, 1 ];;
 gap> A:=[ [ 0, 1, 0, 1 ],
 >         [ 0, 0, 1, 0 ],
 >         [ 0, 1, 0, 1 ],
 >         [ 1, 1, 1, 1 ] ];;
-gap> PrintArray(RatFormStep1J(A,v)[1])
+gap> PrintArray(RatFormStep1(A,v)[1]);
 [ [  0,  1,  0,  0 ],    
   [  0,  0,  1,  0 ],    
   [  0,  3,  1,  0 ],    
-  [  1,  0,  0,  0 ] ]   
-gap> PrintArray(RatFormStep1Js(A,v)[1])";
-[ [  0,  1,  0,  0 ],    
-  [  0,  0,  1,  0 ],    
-  [  0,  0,  0,  1 ],     
-  [  0,  0,  3,  1 ] ]   
+  [  1,  0,  0,  0 ] ] 
 
-# doc/_Chapter_The_nofoma_package.xml:357-383
+# doc/_Chapter_The_nofoma_package.xml:351-377
 gap> A:=[ [  2,  2,  0,  1,  0,  2,  1 ],
 >         [  0,  4,  0,  0,  0,  1,  0 ],
 >         [  0,  1,  1,  0,  0,  1,  1 ],
@@ -127,24 +122,23 @@ gap> PrintArray(f[2]*A*f[2]^-1);
   [   0,   0,   0,   0,  -2,   3,   0 ],
   [   0,   0,   0,   0,   0,   0,   1 ] ]
 
-# doc/_Chapter_The_nofoma_package.xml:398-409
-gap> InvariantFactorsMat([ [ 2,  2, 0, 1, 0,  2, 1 ],
-                           [ 0,  4, 0, 0, 0,  1, 0 ],
-                           [ 0,  1, 1, 0, 0,  1, 1 ],
-                           [ 0, -1, 0, 1, 0, -1, 0 ],
-                           [ 0, -7, 0, 0, 1, -5, 0 ],
-                           [ 0, -2, 0, 0, 0,  1, 0 ],
-                           [ 0, -1, 0, 0, 0, -1, 1 ] ]);
-  #I Degree of minimal polynomial is 4
-  #I Degree of minimal polynomial is 2
+# doc/_Chapter_The_nofoma_package.xml:392-402
+gap> A := [ [ 2,  2, 0, 1, 0,  2, 1 ],
+>           [ 0,  4, 0, 0, 0,  1, 0 ],
+>           [ 0,  1, 1, 0, 0,  1, 1 ],
+>           [ 0, -1, 0, 1, 0, -1, 0 ],
+>           [ 0, -7, 0, 0, 1, -5, 0 ],
+>           [ 0, -2, 0, 0, 0,  1, 0 ],
+>           [ 0, -1, 0, 0, 0, -1, 1 ] ];;
+gap> InvariantFactorsMat(A);
   [ x_1^4-7*x_1^3+17*x_1^2-17*x_1+6, x_1^2-3*x_1+2, x_1-1 ]
 
-# doc/_Chapter_The_nofoma_package.xml:430-453
+# doc/_Chapter_The_nofoma_package.xml:423-446
 gap> A:=[ [  6, -2,  6,  1,  1 ],
 >         [  1, -1,  2,  1, -2 ],
 >         [ -2,  0, -1,  0, -1 ],
 >         [ -1,  0, -2,  2, -1 ],
->         [ -4,  4, -6, -2,  3 ] ];
+>         [ -4,  4, -6, -2,  3 ] ];;
 gap> jc:=JordanChevalleyDecMat(A,MinimalPolynomial(A));
 [ [ [  4,  0,  4, -1,  1 ], 
     [  1,  0,  1,  1, -1 ], 

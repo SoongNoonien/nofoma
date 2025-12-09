@@ -156,17 +156,17 @@ DeclareGlobalFunction("SpinMatVector1");
 #! >         [  -1,   0,   2,  -1 ],
 #! >         [  -1,  -1,   3,  -1 ],
 #! >         [ -13,  -7,  14,  -6 ] ];;
-#! gap> SpinMatVector(a,[1,0,0,0]);
+#! gap> SpinMatVector(A,[1,0,0,0]);
 #! [ [ [ 1, 0, 0, 0 ], [ 0, 1, -2, 1 ] ], 
 #!   [ [ 1, 0, 0, 0 ], [ 5, 2, -4, 2 ] ], 
 #!   [ -1, 0, 1 ],             
 #!   [ 1, 2 ] ]                
-#! gap> SpinMatVector(a,[0,1,0,0]);
+#! gap> SpinMatVector(A,[0,1,0,0]);
 #! [ [ [ 0, 1, 0, 0 ], [ 1, 0, -2, 1 ], [ 0, 0, 1, -1/2 ] ], 
 #!   [ [ 0, 1, 0, 0 ], [ -1, 0, 2, -1 ], [ 6, 3, -4, 2 ] ], 
 #!   [ 1, -1, -1, 1 ],         
 #!   [ 2, 1, 3 ] ]             
-#! gap> SpinMatVector(a,[1,1,0,0]);
+#! gap> SpinMatVector(A,[1,1,0,0]);
 #! [ [ [ 1, 1, 0, 0 ], [ 0, 1, 1, -1/2 ] ], 
 #!   [ [ 1, 1, 0, 0 ], [ 4, 2, -2, 1 ] ], 
 #!   [ 1, -2, 1 ],             
@@ -227,7 +227,7 @@ DeclareGlobalFunction("MinPolyMat");
 #! >         [  0, -1,  0,  0,  0, -1,  1 ] ];;
 #! gap> MaximalVectorMat(A);
 #! [ [ 1, -2, 1, 1, 0, 0, 1 ], x_1^4-7*x_1^3+17*x_1^2-17*x_1+6 ]
-#! gap> v:=last[1];                    
+#! gap> v:=last[1];;               
 #! gap> SpinMatVector(A,v)[3];         
 #! [ 6, -17, 17, -7, 1 ]                    
 #! @EndExampleSession
@@ -272,8 +272,7 @@ DeclareGlobalFunction("BuildBlockDiagonalMat1");
 #! the base change. The output is a quadruple  <C>[A1,P,pol,str]</C> where <M>A1</M> is
 #! the new matrix, <M>P</M> is the base change,  <M>pol</M> is  the minimal polynomial
 #! and <M>str</M> is either 'split' or 'not', according to whether the extension
-#! is split or not. The second form repeatedly applies 'RatFormStep1J' in
-#! order to obtain an invariant complement.
+#! is split or not.
 #!
 #! @BeginExampleSession
 #! gap> v:=[ 1, 1, 1, 1 ];;
@@ -281,16 +280,11 @@ DeclareGlobalFunction("BuildBlockDiagonalMat1");
 #! >         [ 0, 0, 1, 0 ],
 #! >         [ 0, 1, 0, 1 ],
 #! >         [ 1, 1, 1, 1 ] ];;
-#! gap> PrintArray(RatFormStep1J(A,v)[1])
+#! gap> PrintArray(RatFormStep1(A,v)[1]);
 #! [ [  0,  1,  0,  0 ],    
 #!   [  0,  0,  1,  0 ],    
 #!   [  0,  3,  1,  0 ],    
-#!   [  1,  0,  0,  0 ] ]   
-#! gap> PrintArray(RatFormStep1Js(A,v)[1])";
-#! [ [  0,  1,  0,  0 ],    
-#!   [  0,  0,  1,  0 ],    
-#!   [  0,  0,  0,  1 ],     
-#!   [  0,  0,  3,  1 ] ]   
+#!   [  1,  0,  0,  0 ] ] 
 #! @EndExampleSession
 DeclareGlobalFunction("RatFormStep1");
 DeclareGlobalFunction("RatFormStep1J");
@@ -356,15 +350,14 @@ DeclareGlobalFunction("FrobeniusNormalForm1");
 #!  rational canonical form of <A>A</A>, but without computing the base change.
 #!
 #! @BeginExampleSession
-#! gap> InvariantFactorsMat([ [ 2,  2, 0, 1, 0,  2, 1 ],
-#!                            [ 0,  4, 0, 0, 0,  1, 0 ],
-#!                            [ 0,  1, 1, 0, 0,  1, 1 ],
-#!                            [ 0, -1, 0, 1, 0, -1, 0 ],
-#!                            [ 0, -7, 0, 0, 1, -5, 0 ],
-#!                            [ 0, -2, 0, 0, 0,  1, 0 ],
-#!                            [ 0, -1, 0, 0, 0, -1, 1 ] ]);
-#!   #I Degree of minimal polynomial is 4
-#!   #I Degree of minimal polynomial is 2
+#! gap> A := [ [ 2,  2, 0, 1, 0,  2, 1 ],
+#! >           [ 0,  4, 0, 0, 0,  1, 0 ],
+#! >           [ 0,  1, 1, 0, 0,  1, 1 ],
+#! >           [ 0, -1, 0, 1, 0, -1, 0 ],
+#! >           [ 0, -7, 0, 0, 1, -5, 0 ],
+#! >           [ 0, -2, 0, 0, 0,  1, 0 ],
+#! >           [ 0, -1, 0, 0, 0, -1, 1 ] ];;
+#! gap> InvariantFactorsMat(A);
 #!   [ x_1^4-7*x_1^3+17*x_1^2-17*x_1+6, x_1^2-3*x_1+2, x_1-1 ]
 #! @EndExampleSession
 DeclareGlobalFunction("InvariantFactorsMat");
@@ -390,7 +383,7 @@ DeclareGlobalFunction("SquareFreePol");
 #! >         [  1, -1,  2,  1, -2 ],
 #! >         [ -2,  0, -1,  0, -1 ],
 #! >         [ -1,  0, -2,  2, -1 ],
-#! >         [ -4,  4, -6, -2,  3 ] ];
+#! >         [ -4,  4, -6, -2,  3 ] ];;
 #! gap> jc:=JordanChevalleyDecMat(A,MinimalPolynomial(A));
 #! [ [ [  4,  0,  4, -1,  1 ], 
 #!     [  1,  0,  1,  1, -1 ], 
