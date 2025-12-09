@@ -6,13 +6,13 @@
 This package computes maximal vectors, the Frobenius normal form and
 the Jordan-Chevalley decomposition of a (square) matrix over any field 
 that is available in GAP. In particular, it extends the already existing
-GAP function 'MininmalPolynomial' by computing also a vector whose local
+GAP function `MininmalPolynomial` by computing also a vector whose local
 minimal polynomial is equal to the minimal polynomial of a given matrix.
 
 To install the package, just unpack the tar file inside the pkg directory
 of your GAP installation. 
 
-Then you can load the package into GAP by typing 'LoadPackge('nofoma");'
+Then you can load the package into GAP by typing `LoadPackge("nofoma");`
 
 ## Contact
 
