@@ -34,9 +34,9 @@
 #! <M>A</M> is probably that of Neunhoeffer--Praeger (already implemented 
 #! in &GAP;). One of the purposes of this package is to modify that algorithm
 #! so that it also includes the computation of a maximal vector for <M>A</M>; 
-#! this is done by the function `MaximalVectorMat`. Once this is available,
-#! the Frobenius normal form (or rational canonical form) of <M>A</M> can be 
-#! computed efficiently by a recursive algorithm. 
+#! this is done by the function <Ref Func="MaximalVectorMat"/>. Once this is
+#! available, the Frobenius normal form (or rational canonical form) of <M>A</M>
+#! can be computed efficiently by a recursive algorithm.
 #! 
 #! Finally, we also provide a function for computing the Jordan-Chevalley
 #! decomposition of <M>A</M>. Usually, this is obtained as a consequence of 
@@ -45,7 +45,7 @@
 #! there is an elegant algorithmic approach (going back to Chevalley), which 
 #! is inspired by the Newton iteration for finding the zeroes of a function;
 #! and it does not require the knowledge of the eigenvalues of <M>A</M>. This
-#! is implemented in the function `JordanChevalleyDecMat`.
+#! is implemented in the function <Ref Func="JordanChevalleyDecMat"/>.
 #! 
 #! Further references are provided within the help menu of each function.
 #! 
