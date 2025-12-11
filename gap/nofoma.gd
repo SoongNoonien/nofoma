@@ -24,7 +24,7 @@
 #! 
 #! For any (row) vector <M>v\in K^n</M>, the local minimal polynomial is the 
 #! unique monic polynomial <M>f\in K[X]</M> of smallest possible degree such 
-#! that <M>v.f(A)=0</M>. (Note that, as usual in GAP, matrices act on the 
+#! that <M>v.f(A)=0</M>. (Note that, as usual in &GAP;, matrices act on the
 #! right on row vectors.) It is known that there always exists a 
 #! <M>v\in K^n</M> such that the local minimal polynomial of <M>v</M> equals 
 #! the minimal polynomial of <M>A</M>; such a <M>v</M> is called a 'maximal 
@@ -32,7 +32,7 @@
 #! 
 #! The currently best algorithm for computing the minimal polynomial of 
 #! <M>A</M> is probably that of Neunhoeffer--Praeger (already implemented 
-#! in GAP). One of the purposes of this package is to modify that algorithm 
+#! in &GAP;). One of the purposes of this package is to modify that algorithm
 #! so that it also includes the computation of a maximal vector for <M>A</M>; 
 #! this is done by the function `MaximalVectorMat`. Once this is available,
 #! the Frobenius normal form (or rational canonical form) of <M>A</M> can be 
@@ -51,15 +51,15 @@
 #! 
 #! Any comments welcome!                            Meinolf Geck, June 2022
 #! 
-#! @Section Copyright and installation of the nofoma package
-#! The nofoma package is free software; you can redistribute it and/or 
+#! @Section Copyright and installation of the &nofoma; package
+#! The &nofoma; package is free software; you can redistribute it and/or
 #! modify it under the terms of the GNU General Public License as published 
 #! by the Free Software Foundation; either version 2 of the License, or (at 
 #! your option) any later version.
 #!
-#! To install this package first unpack it inside some GAP root directory
-#! in the subdirectory `pkg` (see the section 'Installing a GAP Package' of
-#! the GAP reference manual). Then 'nofoma' can already be loaded and used
+#! To install this package first unpack it inside some &GAP; root directory
+#! in the subdirectory `pkg` (see the section 'Installing a &GAP; Package' of
+#! the &GAP; reference manual). Then &nofoma; can already be loaded and used
 #! (just type `LoadPackage("nofoma");`).
 #!
 #! @Section The main functions
@@ -291,7 +291,7 @@ DeclareGlobalFunction("nfmCompanionMat1");
 #!  vector and an <A>A</A>-invariant complement following Jacob's construction
 #!  (as described in matrix language in <Cite Key ="Gec20"/>); then the 
 #!  algorithm continues recursively. It works for matrices over any field 
-#!  that is available in GAP. The output is a triple with 
+#!  that is available in &GAP;. The output is a triple with
 #!  * 1st component  = list of invariant factors; 
 #!  * 2nd component = base change matrix <M>P</M>; and 
 #!  * 3rd component = indices where the various blocks in the normal form 
@@ -367,7 +367,7 @@ DeclareGlobalFunction("SquareFreePol");
 #!  <A>A</A>). This is called the Jordan-Chevalley decomposition of <A>A</A>; 
 #!  the algorithm is based on <Cite Key ="Gec22"/>. Note that this 
 #!  algorithm does not require the knowledge of the eigenvalues of <A>A</A>; 
-#!  it works over any perfect field that is available in GAP.
+#!  it works over any perfect field that is available in &GAP;.
 #!
 #! @BeginExampleSession
 #! gap> A:=[ [  6, -2,  6,  1,  1 ],
